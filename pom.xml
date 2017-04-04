@@ -28,6 +28,25 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+    
+     <dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.12</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.google.inject</groupId>
+		    <artifactId>guice</artifactId>
+		    <version>4.1.0</version>
+		</dependency>
+		
+		<dependency>
+    		<groupId>org.slf4j</groupId>
+    		<artifactId>slf4j-simple</artifactId>
+    		<version>1.7.22</version>
+		</dependency>
   </dependencies>
   
   <build>
@@ -41,7 +60,7 @@
 		     <execution><goals><goal>java</goal></goals></execution>
 		     </executions>
 		     <configuration>
-		       <mainClass>tesla.cposcanner.Main</mainClass>
+		       <mainClass>tesla.cposcanner.core.Main</mainClass>
 		     </configuration>
 	 </plugin>
 	</plugins>
