@@ -1,5 +1,6 @@
 package tesla.cposcanner.core;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,13 +12,14 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class Main{
-    public static void main( String[] args )    {
+    public static void main( String[] args ) throws IOException    {
     	final List<Module> modules = new ArrayList<Module>();
 		modules.add(new TeslaModule());
 		
 		log.info("Creating injector");
 		final Injector injector = Guice.createInjector(modules);
 		final TeslaCPOService service = injector.getInstance(TeslaCPOService.class);
-		service.run();
+		log.info("Starting service");
+		service.start();
     }
 }
