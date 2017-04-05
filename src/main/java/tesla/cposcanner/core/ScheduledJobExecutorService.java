@@ -6,9 +6,12 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Singleton
 public class ScheduledJobExecutorService extends ScheduledThreadPoolExecutor{
 		private static final int CORE_POOL_SIZE = 8; // core # threads
 		private static final TimeUnit TIME_UNIT = TimeUnit.SECONDS;
