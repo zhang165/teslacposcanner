@@ -61,7 +61,7 @@ public class CPOScanJob implements Runnable{
 		}
 		
 		if(!isSuccessful) return;
-		
+		System.out.println(result);
 		try {
 			final List<TeslaModel> list = parser.parse(result);
 			final StringBuilder sb = new StringBuilder();
