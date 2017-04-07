@@ -42,6 +42,7 @@ public class CPOScanJob implements Runnable{
 	
 	@Override
 	public void run() {
+		log.info("Collecting data from: {}",API_STRING);
 		String result = "";
 		boolean isSuccessful = false;
 		try {

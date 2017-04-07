@@ -14,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 @Singleton
 public class WebScanner {
 	public String scan(String apiString) throws IOException {
-		log.info("Scanning: {}",apiString);
 		final URL url = new URL(apiString);
 		final URLConnection urlConnection = url.openConnection();
 		urlConnection.setDoOutput(true);
