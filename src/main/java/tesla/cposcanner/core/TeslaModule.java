@@ -1,5 +1,7 @@
 package tesla.cposcanner.core;
 
+import javax.inject.Singleton;
+
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -7,11 +9,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 
+import tesla.cposcanner.props.EmailProperties;
+
 public class TeslaModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		
+		bind(EmailProperties.class).in(Singleton.class);
 	}
 	
 	@Provides
@@ -22,5 +26,5 @@ public class TeslaModule extends AbstractModule {
 		mapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
 		return mapper;
 	}
-
+	
 }

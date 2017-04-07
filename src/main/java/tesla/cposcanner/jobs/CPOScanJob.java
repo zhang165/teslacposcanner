@@ -6,7 +6,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.mail.EmailException;
+
 import lombok.extern.slf4j.Slf4j;
+import tesla.cposcanner.emailController.EmailController;
 import tesla.cposcanner.models.TeslaModel;
 import tesla.cposcanner.parser.TeslaParser;
 import tesla.cposcanner.scanner.WebScanner;
@@ -21,12 +24,15 @@ public class CPOScanJob implements Runnable{
 	
 	private final WebScanner scanner;
 	private final TeslaParser parser;
-	private final Map<Integer,TeslaModel> map;
+	private final EmailController emailController;
+	private final Map<String,TeslaModel> map;
 	
-	public CPOScanJob(WebScanner scanner, TeslaParser parser, Map<Integer,TeslaModel> map){
+	public CPOScanJob(final WebScanner scanner, final TeslaParser parser, 
+			final EmailController emailController, final Map<String,TeslaModel> map){
 		this.scanner = scanner;
 		this.parser = parser;
 		this.map = map;
+		this.emailController = emailController;
 	}
 	
 	@Override
@@ -47,6 +53,8 @@ public class CPOScanJob implements Runnable{
 			final StringBuilder sb = new StringBuilder();
 			for(TeslaModel model:list){
 				if(model.getDriveTrain().equals(DRIVE_TRAIN) && model.getUsedVehiclePrice() < MAX_PRICE && !map.containsKey(model.getVin())){
+					map.put(model.getVin(), model);
+					
 					sb.setLength(0);
 					sb.append("Price: "); sb.append(model.getUsedVehiclePrice()); sb.append("\n");
 					sb.append("Year: "); sb.append(model.getYear()); sb.append("\n");
@@ -55,13 +63,15 @@ public class CPOScanJob implements Runnable{
 					log.info(sb.toString());
 					
 					try(BufferedWriter out = new BufferedWriter(new FileWriter(FILENAME))){
-						out.write(sb.toString());
+						out.append(sb.toString());
 					}
+					
+					emailController.sendEmail(sb.toString());
 				}
 			}
-		} catch (IOException e) {
+		} catch (IOException | EmailException e) {
 			log.error("Mapping exception: {}",e.getMessage());
+			e.printStackTrace();
 		}
-		
 	}
 }
