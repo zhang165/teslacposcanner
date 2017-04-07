@@ -19,6 +19,11 @@ import org.xml.sax.helpers.DefaultHandler;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * XML parser for email_context.xml
+ * @author zhang165
+ *
+ */
 @Data
 @Slf4j
 public class EmailProperties extends DefaultHandler{
@@ -147,12 +152,17 @@ public class EmailProperties extends DefaultHandler{
 		}
 	}
 	
-	public boolean getIsSSL(){
-		return isSSL;
-	}
-	
-	public boolean getIsTLS(){
-		return isTLS;
+	@Override
+	public String toString(){
+		final StringBuilder sb = new StringBuilder();
+		sb.append("Sender Address: "); sb.append(senderAddress); sb.append("\n");
+		sb.append("Receiver Address: "); sb.append(receiverAddress); sb.append("\n");
+		sb.append("Password: "); sb.append(password); sb.append("\n");
+		sb.append("Host: "); sb.append(host); sb.append("\n");
+		sb.append("SSL: "); sb.append(SSL); sb.append("\n");
+		sb.append("TLS: "); sb.append(TLS); sb.append("\n");
+
+		return sb.toString();
 	}
 	
 }

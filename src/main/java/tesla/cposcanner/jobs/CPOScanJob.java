@@ -14,6 +14,11 @@ import tesla.cposcanner.models.TeslaModel;
 import tesla.cposcanner.parser.TeslaParser;
 import tesla.cposcanner.scanner.WebScanner;
 
+/**
+ * Scans Tesla.com for CPO Vehicles
+ * @author zhang165
+ *
+ */
 @Slf4j
 public class CPOScanJob implements Runnable{
 	private static final String API_STRING = "https://www.tesla.com/cpo_tool/ajax?exteriors=all&model=MODEL_S&priceRange=0%2C200000&city=null&state=null&country=US";
@@ -70,7 +75,7 @@ public class CPOScanJob implements Runnable{
 				}
 			}
 		} catch (IOException | EmailException e) {
-			log.error("Mapping exception: {}",e.getMessage());
+			log.error("Exception: {}",e.getMessage());
 			e.printStackTrace();
 		}
 	}

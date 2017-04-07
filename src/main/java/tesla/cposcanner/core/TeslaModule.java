@@ -11,6 +11,11 @@ import com.google.inject.Provides;
 
 import tesla.cposcanner.props.EmailProperties;
 
+/**
+ * Guice module Tesla Scanning Service
+ * @author zhang165
+ *
+ */
 public class TeslaModule extends AbstractModule {
 
 	@Override

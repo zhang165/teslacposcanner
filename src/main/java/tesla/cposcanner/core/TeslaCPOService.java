@@ -13,6 +13,11 @@ import tesla.cposcanner.models.TeslaModel;
 import tesla.cposcanner.parser.TeslaParser;
 import tesla.cposcanner.scanner.WebScanner;
 
+/**
+ * Main service which schedules jobs
+ * @author zhang165
+ *
+ */
 @Slf4j
 @Singleton
 public class TeslaCPOService {

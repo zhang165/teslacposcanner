@@ -13,6 +13,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import tesla.cposcanner.models.TeslaModel;
 
+/**
+ * Parses JSON data to POJO
+ * @author zhang165
+ *
+ */
 @JsonIgnoreProperties
 public class TeslaParser {
 	
