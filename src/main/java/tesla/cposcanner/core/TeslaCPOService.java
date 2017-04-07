@@ -1,12 +1,14 @@
 package tesla.cposcanner.core;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import lombok.extern.slf4j.Slf4j;
 import tesla.cposcanner.jobs.CPOScanJob;
+import tesla.cposcanner.models.TeslaModel;
 import tesla.cposcanner.parser.TeslaParser;
 import tesla.cposcanner.scanner.WebScanner;
 
@@ -30,6 +32,6 @@ public class TeslaCPOService {
 	
 	public void start() throws IOException{
 		log.info("Scheduling CPO scan job every 5 minutes");
-		scheduledExecutor.schedule(new CPOScanJob(scanner, parser));
+		scheduledExecutor.schedule(new CPOScanJob(scanner, parser, new HashMap<Integer,TeslaModel>()));
 	}
 }

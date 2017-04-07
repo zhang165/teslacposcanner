@@ -1,12 +1,12 @@
 package tesla.cposcanner.models;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class TeslaModel {
-	private String ConfigId;
+	private int ConfigId;
     private String OptionCodeList;
     private String TitleStatus;
     private String TitleSubStatus;
@@ -37,6 +37,5 @@ public class TeslaModel {
     private boolean isPremium;
     private boolean isPanoramic;
     private boolean isAutopilot;
-    private boolean isFixedGlassRoof;
-    
+    private boolean isFixedGlassRoof;  
 }
