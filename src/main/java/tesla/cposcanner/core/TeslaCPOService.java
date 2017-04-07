@@ -37,7 +37,7 @@ public class TeslaCPOService {
 	private static final String URL_REDIRECT_CA = "https://www.tesla.com/en_CA/preowned/";
 	
 	private static final double US_CAD_EXCHANGE_RATE = 1.34;
-	private static final int MAX_PRICE_US = 73000;
+	private static final int MAX_PRICE_US = 74000;
 	private static final int MAX_PRICE_CA = (int)(MAX_PRICE_US*US_CAD_EXCHANGE_RATE);
 	
 	private static final String DRIVE_TRAIN = "DV4W";
