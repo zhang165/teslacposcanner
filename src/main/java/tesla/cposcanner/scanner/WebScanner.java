@@ -8,16 +8,20 @@ import java.net.URLConnection;
 
 import javax.inject.Singleton;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Scans given Tesla api endpoint and returns the JSON string
  * @author zhang165
  *
  */
 @Singleton
+@Slf4j
 public class WebScanner {
 	public String scan(String apiString) throws IOException {
 		final URL url = new URL(apiString);
 		final URLConnection urlConnection = url.openConnection();
+		log.info("URL connection opened");
 		urlConnection.setDoOutput(true);
 		urlConnection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
 		urlConnection.connect();
@@ -29,7 +33,7 @@ public class WebScanner {
 				sb.append(line);
 			}
 		}	
-		
+		log.info("Web scanner complete, result: {}",sb.toString());
 		return sb.toString();
 	}
 }

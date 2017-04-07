@@ -58,6 +58,7 @@ public class CPOScanJob implements Runnable{
 			isSuccessful = true;
 		} catch (IOException e) {
 			log.error("IOException: {}",e.getMessage());
+			e.printStackTrace();
 		}
 		
 		if(!isSuccessful) return;
