@@ -62,14 +62,14 @@ public class CPOScanJob implements Runnable{
 		}
 		
 		if(!isSuccessful) return;
-		log.info("Scanner was successful from: {}",api);
-		log.info("Result was: {}",result);
 		
 		try {
 			final List<TeslaModel> list = parser.parse(result);
 			final StringBuilder sb = new StringBuilder();
+			int match = 0;
 			for(TeslaModel model:list){
-				if(model.getDriveTrain().equals(driveTrain) && model.getUsedVehiclePrice() < maxPrice && !map.containsKey(model.getVin())){
+				if(model.getDriveTrain().equals(driveTrain) && model.getUsedVehiclePrice() <= maxPrice && !map.containsKey(model.getVin())){
+					match++;
 					map.put(model.getVin(), model);
 					
 					sb.setLength(0);
@@ -86,6 +86,8 @@ public class CPOScanJob implements Runnable{
 					emailController.sendEmail(sb.toString());
 				}
 			}
+			log.info("Found: {} CPO vehicles with {} matching critera",list.size(),match);
+			log.info("Drive Train: {} and Price <= {}",driveTrain, maxPrice);
 		} catch (IOException | EmailException e) {
 			log.error("Exception: {}",e.getMessage());
 			e.printStackTrace();

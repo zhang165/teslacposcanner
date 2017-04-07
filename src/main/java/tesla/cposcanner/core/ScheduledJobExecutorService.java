@@ -16,7 +16,7 @@ public class ScheduledJobExecutorService extends ScheduledThreadPoolExecutor{
 		private static final int CORE_POOL_SIZE = 8; // core # threads
 		private static final TimeUnit TIME_UNIT = TimeUnit.SECONDS;
 		public static final long START_DELAY = 10L;
-		public static final long UPDATE_TIME = 600L; // update every 10 minutes
+		public static final long UPDATE_TIME = 1800L; // update every 30 minutes
 		
 		private Runnable lastJob;
 	
