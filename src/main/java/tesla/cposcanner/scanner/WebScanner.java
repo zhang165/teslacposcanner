@@ -8,9 +8,11 @@ import java.net.URLConnection;
 
 import javax.inject.Singleton;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
+/**
+ * Scans given Tesla api endpoint and returns the JSON string
+ * @author zhang165
+ *
+ */
 @Singleton
 public class WebScanner {
 	public String scan(String apiString) throws IOException {

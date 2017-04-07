@@ -15,8 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 public class ScheduledJobExecutorService extends ScheduledThreadPoolExecutor{
 		private static final int CORE_POOL_SIZE = 8; // core # threads
 		private static final TimeUnit TIME_UNIT = TimeUnit.SECONDS;
-		private static final long START_DELAY = 0L;
-		private static final long UPDATE_TIME = 300L; // update every 5 minutes
+		public static final long START_DELAY = 10L;
+		public static final long UPDATE_TIME = 600L; // update every 10 minutes
 		
 		private Runnable lastJob;
 	
