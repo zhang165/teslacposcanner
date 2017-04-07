@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<!-- Email credentials -->
+<email_context.xml>
+	<senderAddress>teslacposervice@gmail.com</senderAddress>
+	<senderPassword>elonmusk</senderPassword>
+	<hostName>smtp.gmail.com</hostName>
+	<setSSLOnConnect>true</setSSLOnConnect>
+	<setStartTLS>true</setStartTLS>
+	<receiverAddress>zhang165@gmail.com</receiverAddress>
+</email_context.xml>
