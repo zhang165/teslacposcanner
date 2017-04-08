@@ -12,6 +12,7 @@ import tesla.cposcanner.emailController.EmailController;
 import tesla.cposcanner.jobs.CPOScanJob;
 import tesla.cposcanner.models.TeslaModel;
 import tesla.cposcanner.parser.TeslaParser;
+import tesla.cposcanner.props.TeslaProperties;
 import tesla.cposcanner.scanner.WebScanner;
 
 /**
@@ -28,36 +29,34 @@ public class TeslaCPOService {
 	private final WebScanner scanner;
 	private final TeslaParser parser;
 	private final EmailController emailController;
+	private final TeslaProperties props;
 	
-	// TODO: extract this from xml
-	private static final String API_STRING_US = "https://www.tesla.com/cpo_tool/ajax?exteriors=all&model=MODEL_S&priceRange=0%2C200000&city=null&state=null&country=US";
+	private static final String API_STRING_US = "https://www.tesla.com/cpo_tool/ajax?exteriors=all&priceRange=0%2C100000&city=null&state=null&country=US";
 	private static final String URL_REDIRECT_US = "https://www.tesla.com/preowned/";
 	
-	private static final String API_STRING_CA = "https://www.tesla.com/cpo_tool/ajax?exteriors=all&model=MODEL_S&priceRange=0%2C200000&city=null&state=null&country=CA";
+	private static final String API_STRING_CA = "https://www.tesla.com/cpo_tool/ajax?exteriors=all&priceRange=0%2C100000&city=null&state=null&country=CA";
 	private static final String URL_REDIRECT_CA = "https://www.tesla.com/en_CA/preowned/";
-	
-	private static final double US_CAD_EXCHANGE_RATE = 1.34;
-	private static final int MAX_PRICE_US = 63000;
-	private static final int MAX_PRICE_CA = (int)(MAX_PRICE_US*US_CAD_EXCHANGE_RATE);
-	
-	private static final String DRIVE_TRAIN = "DV4W";
 	
 	@Inject
 	public TeslaCPOService(final WebScanner webscanner, final ScheduledJobExecutorService scheduledExecutor,
-			final WebScanner scanner, final TeslaParser parser, final EmailController emailController){
+			final WebScanner scanner, final TeslaParser parser, final EmailController emailController,
+			TeslaProperties props){
 		this.webScanner = webscanner;
 		this.scheduledExecutor = scheduledExecutor;
 		this.scanner = scanner;
 		this.parser = parser;
 		this.emailController = emailController;
+		this.props = props;
+		System.out.println(props);
 	}
 	
 	public void start() throws IOException{
 		log.info("Scheduling CPO scan job every {} minutes",ScheduledJobExecutorService.UPDATE_TIME/60);
 		final Map<String, TeslaModel> map = new ConcurrentHashMap<String,TeslaModel>();
 		scheduledExecutor.schedule(new CPOScanJob(scanner, parser, emailController, map, 
-				API_STRING_US, URL_REDIRECT_US, DRIVE_TRAIN, MAX_PRICE_US));
+				API_STRING_US, URL_REDIRECT_US, props.getDriveTrain(), props.getMaxPriceUS()));
 		scheduledExecutor.schedule(new CPOScanJob(scanner, parser, emailController, map, 
-				API_STRING_CA, URL_REDIRECT_CA, DRIVE_TRAIN, MAX_PRICE_CA));
+				API_STRING_CA, URL_REDIRECT_CA, props.getDriveTrain(), 
+				(int)(props.getMaxPriceUS()*props.getExchangeRate())));
 	}
 }

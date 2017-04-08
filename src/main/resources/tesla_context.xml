@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<!-- Tesla Credentials -->
+<tesla_context.xml>
+	<maxPriceUS>63000</maxPriceUS>
+	<exchangeRate>1.34</exchangeRate>
+	<driveTrain>DV4W</driveTrain>
+</tesla_context.xml>

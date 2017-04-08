@@ -3,7 +3,6 @@ package tesla.cposcanner.props;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.Properties;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -27,14 +26,14 @@ import lombok.extern.slf4j.Slf4j;
 @Data
 @Slf4j
 public class EmailProperties extends DefaultHandler{
-	private final String emailContextFileName = "email_context.xml";
+	private static final String EMAIL_CONTEXT_FILE_NAME = "email_context.xml";
 	
-	public final static String senderAddressPropertyName = "senderAddress";
-	public final static String receiverAddressPropertyName = "receiverAddress";
-	public final static String passwordPropertyName = "senderPassword";
-	public final static String hostPropertyName = "hostName";
-	public final static String SSLPropertyName = "setSSLOnConnect";
-	public final static String setStartTLSName = "setStartTLS";
+	public final static String SENDER_ADDRESS_NAME = "senderAddress";
+	public final static String RECEIVER_ADDRESS_NAME = "receiverAddress";
+	public final static String PASSWORD_NAME = "senderPassword";
+	public final static String HOST_NAME = "hostName";
+	public final static String SSL_NAME = "setSSLOnConnect";
+	public final static String SET_START_TLS_NAME = "setStartTLS";
 	
 	private String senderAddress = "";
 	private String receiverAddress = "";
@@ -53,47 +52,42 @@ public class EmailProperties extends DefaultHandler{
 	private Properties props;
 
 	public EmailProperties(){
+		props = new Properties();
 		try {
 			generateProperties();
 		} catch (ParserConfigurationException | SAXException e) {
-			log.error("DBPropertiesDAO failed to parse: {}",emailContextFileName);
+			log.error("Failed to parse: {}",EMAIL_CONTEXT_FILE_NAME);
 			e.printStackTrace();
 		} catch (IOException e) {
-			log.error("Failed to locate file: {}",emailContextFileName);
+			log.error("Failed to locate file: {}",EMAIL_CONTEXT_FILE_NAME);
 			e.printStackTrace();
 		}
 	}	
 	
-	public void generateProperties() throws ParserConfigurationException, SAXException, IOException{
-		props = new Properties();
-		initParser();
-	}
-	
-	private void initParser() throws IOException, SAXException, ParserConfigurationException{
-	    SAXParserFactory spf = SAXParserFactory.newInstance();
+	private void generateProperties() throws ParserConfigurationException, SAXException, IOException{
+		final SAXParserFactory spf = SAXParserFactory.newInstance();
 	    spf.setNamespaceAware(true);
-	    SAXParser saxParser = spf.newSAXParser();
-	    XMLReader xmlReader = saxParser.getXMLReader();
+	    final SAXParser saxParser = spf.newSAXParser();
+	    final XMLReader xmlReader = saxParser.getXMLReader();
 	    xmlReader.setContentHandler(this);
-	    ClassLoader classLoader = getClass().getClassLoader();
-	    InputStream stream = classLoader.getResourceAsStream(emailContextFileName);    
-	    Reader reader = new InputStreamReader(stream,"UTF-8");
-	    InputSource is = new InputSource(reader);
+	    final ClassLoader classLoader = getClass().getClassLoader();
+	    final InputStream stream = classLoader.getResourceAsStream(EMAIL_CONTEXT_FILE_NAME);    
+	    final InputSource is = new InputSource(new InputStreamReader(stream,"UTF-8"));
 	    xmlReader.parse(is);
 	}
 	
 	public void startElement(String uri, String localName, String qName, Attributes arg3) throws SAXException {
-		if (qName.equalsIgnoreCase(passwordPropertyName)) {
+		if (qName.equalsIgnoreCase(PASSWORD_NAME)) {
 			isPassword = true;
-		}else if (qName.equalsIgnoreCase(senderAddressPropertyName)) {
+		}else if (qName.equalsIgnoreCase(SENDER_ADDRESS_NAME)) {
 			isSenderAddress = true;
-		}else if (qName.equalsIgnoreCase(receiverAddressPropertyName)) {
+		}else if (qName.equalsIgnoreCase(RECEIVER_ADDRESS_NAME)) {
 			isReceiverAddress = true;
-		}else if (qName.equalsIgnoreCase(hostPropertyName)) {
+		}else if (qName.equalsIgnoreCase(HOST_NAME)) {
 			isHost = true;
-		}else if (qName.equalsIgnoreCase(emailContextFileName)) {
+		}else if (qName.equalsIgnoreCase(EMAIL_CONTEXT_FILE_NAME)) {
 			//Ignore - this is the root element
-		}else if (qName.equalsIgnoreCase(setStartTLSName)) {
+		}else if (qName.equalsIgnoreCase(SET_START_TLS_NAME)) {
 			isTLS = true;
 		}else{ 
 			isSSL = true;
@@ -133,36 +127,23 @@ public class EmailProperties extends DefaultHandler{
 	
 	public void endDocument(){
 		if(senderAddress.equals("")){
-			log.error("Unable to parse sender email address from email_context.xml. Cannot send emails");
+			log.error("Unable to parse sender email address from {}. Cannot send emails",EMAIL_CONTEXT_FILE_NAME);
 		}
 		if(receiverAddress.equals("")){
-			log.error("Unable to parse receiver email address from email_context.xml. Cannot send emails");
+			log.error("Unable to parse receiver email address from {}. Cannot send emails", EMAIL_CONTEXT_FILE_NAME);
 		}
 		if(password.equals("")){
-			log.error("Unable to parse password from email_context.xml. Cannot send emails");		
+			log.error("Unable to parse password from {}. Cannot send emails",EMAIL_CONTEXT_FILE_NAME);		
 		}
 		if(host.equals("")){
-			log.error("Unable to parse host value from email_context.xml. Cannot send emails");
+			log.error("Unable to parse host value from {}. Cannot send emails",EMAIL_CONTEXT_FILE_NAME);
 		}
 		if(SSL.equals("")){
-			log.error("Unable to parse SSL value from email_context.xml. Cannot send emails");
+			log.error("Unable to parse SSL value from {}. Cannot send emails",EMAIL_CONTEXT_FILE_NAME);
 		}
 		if(TLS.equals("")){
-			log.error("Unable to parse TLS value from email_context.xml. Cannot send emails");
+			log.error("Unable to parse TLS value from {}. Cannot send emails",EMAIL_CONTEXT_FILE_NAME);
 		}
-	}
-	
-	@Override
-	public String toString(){
-		final StringBuilder sb = new StringBuilder();
-		sb.append("Sender Address: "); sb.append(senderAddress); sb.append("\n");
-		sb.append("Receiver Address: "); sb.append(receiverAddress); sb.append("\n");
-		sb.append("Password: "); sb.append(password); sb.append("\n");
-		sb.append("Host: "); sb.append(host); sb.append("\n");
-		sb.append("SSL: "); sb.append(SSL); sb.append("\n");
-		sb.append("TLS: "); sb.append(TLS); sb.append("\n");
-
-		return sb.toString();
 	}
 	
 }
